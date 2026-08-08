@@ -77,3 +77,21 @@ The metadata `readable_time` is consistently four hours behind the UTC rendering
 - Decide whether the four relationship names follow a standard provenance ontology or dataset-specific direction conventions.
 
 The generated JSON records these ambiguities alongside full counts, missing rates, inferred lexical dtypes, examples, timestamp ranges, endpoint integrity, PID statistics, and attack-PID linkage evidence.
+
+## Focused attack investigation
+
+The second milestone investigates one known attack without creating a generic extraction pipeline. The default selection is zero-based attack row `44`: lateral movement / `start sandcat` / PID `152566`.
+
+```bash
+python src/investigate_attack.py
+```
+
+Use `--attack-index N` to investigate another metadata row. The command writes a detailed JSON report and a small GraphML file under `data/processed/`. GraphML contains observed provenance edges plus separately marked `inferred_pid_lineage` edges derived from PID/PPID equality.
+
+For the selected record, the metadata time precedes the matching provenance Process time by `2900.151` seconds. The two same-PID Process IDs share that provenance timestamp and attack label; one carries `seen time`, while the other carries `start time` and a base64-wrapped command. Decoding—not executing—that payload reveals `scp` and `ssh` steps targeting `172.16.64.128`.
+
+PID/PPID reconstruction finds three direct children and one grandchild: one `scp` and three `ssh` Process executions. Their provenance activity spans about 40.3 seconds, and all ten Process-state nodes are labeled `lateralMovement`. No directly adjacent network-socket Artifact was recorded, despite the explicit remote commands.
+
+The most defensible investigative window is anchored on the matching provenance Process time, follows temporally nearby PID/PPID descendants, and uses their incident-edge time envelope with small padding (about ±60 seconds here). Exact metadata-centered windows under one hour miss the attack Process; bridging the full metadata-to-process gap admits substantial unrelated activity. Unconstrained graph traversal is also unsafe because shared executable and loader Artifact IDs become high-degree hubs.
+
+See [`docs/attack_044_analysis.md`](docs/attack_044_analysis.md) for the evidence table, temporal-window comparison, assumptions, and unresolved questions.
