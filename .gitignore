@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# The CICAPT-IIoT2024 source files are local, read-only inputs.
+data/raw/
+
+# Generated outputs can be large. Keep only the small schema report.
+data/processed/*
+!data/processed/schema_summary.json
+

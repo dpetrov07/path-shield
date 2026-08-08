@@ -1,0 +1,766 @@
+{
+  "format_version": 1,
+  "provenance_file": {
+    "path": "data/raw/Phase2_Provenance.csv",
+    "size_bytes": 29896119,
+    "columns": [
+      "id",
+      "type",
+      "from",
+      "to",
+      "uid",
+      "egid",
+      "exe",
+      "gid",
+      "euid",
+      "name",
+      "pid",
+      "seen time",
+      "source",
+      "ppid",
+      "command line",
+      "start time",
+      "event id",
+      "time",
+      "operation",
+      "path",
+      "subtype",
+      "permissions",
+      "epoch",
+      "version",
+      "flags",
+      "local address",
+      "remote port",
+      "protocol",
+      "remote address",
+      "local port",
+      "tgid",
+      "fd",
+      "mode",
+      "label",
+      "subLabel"
+    ],
+    "column_profiles": {
+      "id": {
+        "inferred_dtype": "string",
+        "non_missing_count": 53286,
+        "missing_count": 143449,
+        "missing_rate": 0.729148
+      },
+      "type": {
+        "inferred_dtype": "string",
+        "non_missing_count": 196735,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "from": {
+        "inferred_dtype": "string",
+        "non_missing_count": 143449,
+        "missing_count": 53286,
+        "missing_rate": 0.270852
+      },
+      "to": {
+        "inferred_dtype": "string",
+        "non_missing_count": 143449,
+        "missing_count": 53286,
+        "missing_rate": 0.270852
+      },
+      "uid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "egid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "exe": {
+        "inferred_dtype": "string",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "gid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "euid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "name": {
+        "inferred_dtype": "string",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "pid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 33310,
+        "missing_count": 163425,
+        "missing_rate": 0.830686
+      },
+      "seen time": {
+        "inferred_dtype": "float",
+        "non_missing_count": 12515,
+        "missing_count": 184220,
+        "missing_rate": 0.936387
+      },
+      "source": {
+        "inferred_dtype": "string",
+        "non_missing_count": 196735,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "ppid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 24839,
+        "missing_count": 171896,
+        "missing_rate": 0.873744
+      },
+      "command line": {
+        "inferred_dtype": "string",
+        "non_missing_count": 12324,
+        "missing_count": 184411,
+        "missing_rate": 0.937357
+      },
+      "start time": {
+        "inferred_dtype": "float",
+        "non_missing_count": 12324,
+        "missing_count": 184411,
+        "missing_rate": 0.937357
+      },
+      "event id": {
+        "inferred_dtype": "float",
+        "non_missing_count": 143449,
+        "missing_count": 53286,
+        "missing_rate": 0.270852
+      },
+      "time": {
+        "inferred_dtype": "float",
+        "non_missing_count": 143449,
+        "missing_count": 53286,
+        "missing_rate": 0.270852
+      },
+      "operation": {
+        "inferred_dtype": "string",
+        "non_missing_count": 143449,
+        "missing_count": 53286,
+        "missing_rate": 0.270852
+      },
+      "path": {
+        "inferred_dtype": "string",
+        "non_missing_count": 17642,
+        "missing_count": 179093,
+        "missing_rate": 0.910326
+      },
+      "subtype": {
+        "inferred_dtype": "string",
+        "non_missing_count": 28447,
+        "missing_count": 168288,
+        "missing_rate": 0.855404
+      },
+      "permissions": {
+        "inferred_dtype": "float",
+        "non_missing_count": 17642,
+        "missing_count": 179093,
+        "missing_rate": 0.910326
+      },
+      "epoch": {
+        "inferred_dtype": "float",
+        "non_missing_count": 28447,
+        "missing_count": 168288,
+        "missing_rate": 0.855404
+      },
+      "version": {
+        "inferred_dtype": "float",
+        "non_missing_count": 28447,
+        "missing_count": 168288,
+        "missing_rate": 0.855404
+      },
+      "flags": {
+        "inferred_dtype": "string",
+        "non_missing_count": 234,
+        "missing_count": 196501,
+        "missing_rate": 0.998811
+      },
+      "local address": {
+        "inferred_dtype": "empty",
+        "non_missing_count": 0,
+        "missing_count": 196735,
+        "missing_rate": 1.0
+      },
+      "remote port": {
+        "inferred_dtype": "float",
+        "non_missing_count": 10787,
+        "missing_count": 185948,
+        "missing_rate": 0.94517
+      },
+      "protocol": {
+        "inferred_dtype": "string",
+        "non_missing_count": 9528,
+        "missing_count": 187207,
+        "missing_rate": 0.951569
+      },
+      "remote address": {
+        "inferred_dtype": "string",
+        "non_missing_count": 10787,
+        "missing_count": 185948,
+        "missing_rate": 0.94517
+      },
+      "local port": {
+        "inferred_dtype": "empty",
+        "non_missing_count": 0,
+        "missing_count": 196735,
+        "missing_rate": 1.0
+      },
+      "tgid": {
+        "inferred_dtype": "float",
+        "non_missing_count": 18,
+        "missing_count": 196717,
+        "missing_rate": 0.999909
+      },
+      "fd": {
+        "inferred_dtype": "float",
+        "non_missing_count": 18,
+        "missing_count": 196717,
+        "missing_rate": 0.999909
+      },
+      "mode": {
+        "inferred_dtype": "float",
+        "non_missing_count": 26,
+        "missing_count": 196709,
+        "missing_rate": 0.999868
+      },
+      "label": {
+        "inferred_dtype": "integer",
+        "non_missing_count": 196735,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "subLabel": {
+        "inferred_dtype": "string",
+        "non_missing_count": 196735,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      }
+    },
+    "total_rows": 196735,
+    "record_counts": {
+      "node": 53286,
+      "edge": 143449
+    },
+    "node_type_counts": {
+      "Artifact": 28447,
+      "Process": 24839
+    },
+    "relationship_type_counts": {
+      "WasGeneratedBy": 87636,
+      "Used": 34206,
+      "WasTriggeredBy": 13136,
+      "WasDerivedFrom": 8471
+    },
+    "operation_counts": {
+      "unlink": 68351,
+      "load": 25512,
+      "execve": 12223,
+      "connect": 10787,
+      "rename": 8466,
+      "rename (read)": 8466,
+      "rename (write)": 8466,
+      "setgid": 512,
+      "setuid": 293,
+      "open": 234,
+      "update": 113,
+      "chmod": 26
+    },
+    "relationship_operation_counts": {
+      "WasGeneratedBy: unlink": 68351,
+      "Used: load": 25512,
+      "WasTriggeredBy: execve": 12223,
+      "WasGeneratedBy: connect": 10787,
+      "Used: rename (read)": 8466,
+      "WasDerivedFrom: rename": 8466,
+      "WasGeneratedBy: rename (write)": 8466,
+      "WasTriggeredBy: setgid": 512,
+      "WasTriggeredBy: setuid": 293,
+      "Used: open": 228,
+      "WasTriggeredBy: update": 108,
+      "WasGeneratedBy: chmod": 26,
+      "WasGeneratedBy: open": 6,
+      "WasDerivedFrom: update": 5
+    },
+    "relationship_endpoint_type_counts": {
+      "WasGeneratedBy: Artifact -> Process": 87636,
+      "Used: Process -> Artifact": 34206,
+      "WasTriggeredBy: Process -> Process": 13136,
+      "WasDerivedFrom: Artifact -> Artifact": 8471
+    },
+    "artifact_subtype_counts": {
+      "file": 17344,
+      "network socket": 10787,
+      "link": 283,
+      "unknown": 18,
+      "directory": 15
+    },
+    "label_counts": {
+      "0": 196333,
+      "1": 402
+    },
+    "subLabel_counts": {
+      "0": 196333,
+      "credentialAccess": 151,
+      "collection": 100,
+      "defenceEvasion": 46,
+      "discovery": 36,
+      "exfiltration": 22,
+      "persistence": 19,
+      "CandC": 16,
+      "lateralMovement": 10,
+      "initialAccess": 2
+    },
+    "source_counts": {
+      "syscall": 196735
+    },
+    "event_id_statistics": {
+      "non_missing_count": 143449,
+      "unique_count": 100892,
+      "min_relationships_per_event_id": 1,
+      "max_relationships_per_event_id": 4
+    },
+    "timestamps": {
+      "seen time": {
+        "non_missing_numeric_count": 12515,
+        "invalid_count": 0,
+        "unit_interpretation": "Unix epoch seconds (inferred)",
+        "min": 1701468825.767,
+        "max": 1701728421.462,
+        "min_utc": "2023-12-01T22:13:45.767000+00:00",
+        "max_utc": "2023-12-04T22:20:21.462000+00:00"
+      },
+      "start time": {
+        "non_missing_numeric_count": 12324,
+        "invalid_count": 0,
+        "unit_interpretation": "Unix epoch seconds (inferred)",
+        "min": 1701468825.767,
+        "max": 1701728421.462,
+        "min_utc": "2023-12-01T22:13:45.767000+00:00",
+        "max_utc": "2023-12-04T22:20:21.462000+00:00"
+      },
+      "time": {
+        "non_missing_numeric_count": 143449,
+        "invalid_count": 0,
+        "unit_interpretation": "Unix epoch seconds (inferred)",
+        "min": 1701468825.767,
+        "max": 1701728421.462,
+        "min_utc": "2023-12-01T22:13:45.767000+00:00",
+        "max_utc": "2023-12-04T22:20:21.462000+00:00"
+      }
+    },
+    "pid_statistics": {
+      "non_missing_valid_count": 33310,
+      "unique_count": 12443,
+      "min": 839,
+      "max": 244020,
+      "record_class_counts": {
+        "node": 24839,
+        "edge": 8471
+      }
+    },
+    "endpoint_integrity": {
+      "unique_node_ids": 53286,
+      "unique_referenced_ids": 53286,
+      "missing_referenced_node_count": 0,
+      "unreferenced_node_count": 0,
+      "missing_referenced_node_examples": [],
+      "unreferenced_node_examples": []
+    },
+    "representative_examples": {
+      "Process": [
+        {
+          "id": "ca5b322fa4d4cb63aa5dd9fbd88e37e4",
+          "type": "Process",
+          "uid": "0.0",
+          "egid": "0.0",
+          "exe": "/usr/bin/dash",
+          "gid": "0.0",
+          "euid": "0.0",
+          "name": "ethtool",
+          "pid": "917.0",
+          "seen time": "1701468825.767",
+          "source": "syscall",
+          "ppid": "913.0",
+          "label": "0",
+          "subLabel": "0"
+        },
+        {
+          "id": "e36715b62c8cdc32e47483b3600712f1",
+          "type": "Process",
+          "uid": "0.0",
+          "egid": "0.0",
+          "exe": "/usr/bin/dash",
+          "gid": "0.0",
+          "euid": "0.0",
+          "name": "ethtool",
+          "pid": "917.0",
+          "source": "syscall",
+          "ppid": "913.0",
+          "command line": "/bin/sh /etc/network/if-up.d/ethtool",
+          "start time": "1701468825.767",
+          "label": "0",
+          "subLabel": "0"
+        }
+      ],
+      "WasTriggeredBy": [
+        {
+          "type": "WasTriggeredBy",
+          "from": "e36715b62c8cdc32e47483b3600712f1",
+          "to": "ca5b322fa4d4cb63aa5dd9fbd88e37e4",
+          "source": "syscall",
+          "event id": "246.0",
+          "time": "1701468825.767",
+          "operation": "execve",
+          "label": "0",
+          "subLabel": "0"
+        },
+        {
+          "type": "WasTriggeredBy",
+          "from": "8b6765b85687fc106c38efdd4a400f5f",
+          "to": "b55dcc91b1270f16cef024e045a3aa76",
+          "source": "syscall",
+          "event id": "325.0",
+          "time": "1701468825.787",
+          "operation": "execve",
+          "label": "0",
+          "subLabel": "0"
+        }
+      ],
+      "Artifact": [
+        {
+          "id": "216f4d4893942a66d649c4e02b5722c4",
+          "type": "Artifact",
+          "source": "syscall",
+          "path": "/etc/network/if-up.d/ethtool",
+          "subtype": "file",
+          "permissions": "755.0",
+          "epoch": "0.0",
+          "version": "0.0",
+          "label": "0",
+          "subLabel": "0"
+        },
+        {
+          "id": "bdc2ca1d94be5a3958f6621d8b52fdb0",
+          "type": "Artifact",
+          "source": "syscall",
+          "path": "/bin/sh",
+          "subtype": "file",
+          "permissions": "755.0",
+          "epoch": "0.0",
+          "version": "0.0",
+          "label": "0",
+          "subLabel": "0"
+        }
+      ],
+      "Used": [
+        {
+          "type": "Used",
+          "from": "e36715b62c8cdc32e47483b3600712f1",
+          "to": "216f4d4893942a66d649c4e02b5722c4",
+          "source": "syscall",
+          "event id": "246.0",
+          "time": "1701468825.767",
+          "operation": "load",
+          "label": "0",
+          "subLabel": "0"
+        },
+        {
+          "type": "Used",
+          "from": "e36715b62c8cdc32e47483b3600712f1",
+          "to": "bdc2ca1d94be5a3958f6621d8b52fdb0",
+          "source": "syscall",
+          "event id": "246.0",
+          "time": "1701468825.767",
+          "operation": "load",
+          "label": "0",
+          "subLabel": "0"
+        }
+      ],
+      "WasGeneratedBy": [
+        {
+          "type": "WasGeneratedBy",
+          "from": "0ef5f6d816adb32da9ff11dcecab0e52",
+          "to": "ef7462e34f0ca1892abc5c0959933ae1",
+          "source": "syscall",
+          "event id": "524.0",
+          "time": "1701468825.887",
+          "operation": "open",
+          "flags": "O_RDWR",
+          "label": "0",
+          "subLabel": "0"
+        },
+        {
+          "type": "WasGeneratedBy",
+          "from": "fad2b24cf6261cf81268c762dd09b1e3",
+          "to": "ef7462e34f0ca1892abc5c0959933ae1",
+          "source": "syscall",
+          "event id": "525.0",
+          "time": "1701468825.887",
+          "operation": "open",
+          "flags": "O_WRONLY",
+          "label": "0",
+          "subLabel": "0"
+        }
+      ],
+      "WasDerivedFrom": [
+        {
+          "type": "WasDerivedFrom",
+          "from": "136909e688af2a3236d9f96210da4c64",
+          "to": "3fe322c3d501d4b9fc901e02b3208c33",
+          "pid": "1716.0",
+          "source": "syscall",
+          "event id": "1529.0",
+          "time": "1701468836.159",
+          "operation": "rename",
+          "label": "0",
+          "subLabel": "0"
+        },
+        {
+          "type": "WasDerivedFrom",
+          "from": "9bd9554467d8cc7c474ec79d018eec40",
+          "to": "55ce9f894ba7e218a5600611b01cc410",
+          "pid": "1716.0",
+          "source": "syscall",
+          "event id": "1558.0",
+          "time": "1701468836.179",
+          "operation": "rename",
+          "label": "0",
+          "subLabel": "0"
+        }
+      ]
+    },
+    "classification_rule": {
+      "node": "id present; from and to empty",
+      "edge": "id empty; from and to present",
+      "ambiguous": "any other id/from/to population pattern"
+    }
+  },
+  "attack_info_file": {
+    "path": "data/raw/attack_info.csv",
+    "size_bytes": 4310,
+    "columns": [
+      "Time of Attack",
+      "Tactic Name",
+      "Technique Name",
+      "PID",
+      "readable_time"
+    ],
+    "column_profiles": {
+      "Time of Attack": {
+        "inferred_dtype": "float",
+        "non_missing_count": 58,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "Tactic Name": {
+        "inferred_dtype": "string",
+        "non_missing_count": 58,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "Technique Name": {
+        "inferred_dtype": "string",
+        "non_missing_count": 58,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "PID": {
+        "inferred_dtype": "integer",
+        "non_missing_count": 58,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      },
+      "readable_time": {
+        "inferred_dtype": "string",
+        "non_missing_count": 58,
+        "missing_count": 0,
+        "missing_rate": 0.0
+      }
+    },
+    "row_count": 58,
+    "missing_counts": {
+      "Time of Attack": 0,
+      "Tactic Name": 0,
+      "Technique Name": 0,
+      "PID": 0,
+      "readable_time": 0
+    },
+    "tactic_counts": {
+      "collection": 24,
+      "cleanup": 13,
+      "discovery": 9,
+      "credential access": 4,
+      "command and control": 3,
+      "exfiltration": 3,
+      "lateral movement": 1,
+      "persistence": 1
+    },
+    "technique_counts": {
+      "find files": 13,
+      "stage sensitive files": 6,
+      "advanced file search and stager": 4,
+      "compress staged directory": 4,
+      "add command": 2,
+      "capture linux desktop": 2,
+      "create a new user in linux": 2,
+      "create staging directory": 2,
+      "download sandcat and lazagne": 2,
+      "dump credentials from firefox": 2,
+      "dump credentials from firefox browser": 2,
+      "list os information": 2,
+      "add or copy content to clipboard": 1,
+      "check python": 1,
+      "collect arp details": 1,
+      "dump history": 1,
+      "exfil staged directory": 1,
+      "extract password with grep": 1,
+      "find local users": 1,
+      "linux download file": 1,
+      "linux download file and run": 1,
+      "list directory": 1,
+      "network interface configuration": 1,
+      "permission groups discovery": 1,
+      "scan wifi networks": 1,
+      "start sandcat": 1,
+      "system owner/user discovery": 1
+    },
+    "pid": {
+      "valid_count": 58,
+      "unique_count": 58,
+      "min": 4437,
+      "max": 181578
+    },
+    "timestamp_range": {
+      "min": 1701469507.0,
+      "max": 1701658975.0,
+      "min_utc": "2023-12-01T22:25:07+00:00",
+      "max_utc": "2023-12-04T03:02:55+00:00"
+    },
+    "provenance_linkage": {
+      "candidate_key": "attack_info.PID == integer-normalized Process.pid",
+      "matched_attack_rows": 58,
+      "unmatched_attack_rows": 0,
+      "exact_attack_to_process_timestamp_matches": 0,
+      "closest_process_time_delta_seconds": {
+        "count": 58,
+        "min": 25.036999940872192,
+        "max": 4374.569000005722,
+        "median": 3219.1750000715256
+      },
+      "tactic_to_process_sublabel_counts": {
+        "collection -> collection": 48,
+        "cleanup -> defenceEvasion": 26,
+        "discovery -> discovery": 18,
+        "credential access -> credentialAccess": 8,
+        "command and control -> CandC": 6,
+        "exfiltration -> exfiltration": 6,
+        "lateral movement -> lateralMovement": 2,
+        "persistence -> persistence": 2
+      },
+      "examples": [
+        {
+          "attack": {
+            "Time of Attack": "1701469507.0",
+            "Tactic Name": "collection",
+            "Technique Name": "create staging directory",
+            "PID": "4437",
+            "readable_time": "2023-12-01 18:25:07"
+          },
+          "matched_process_entity_ids": [
+            "6859c2e56aa19c0d822a000cbf2bae5b",
+            "9e88ae06c140329e35c2ee9a3a8c5179"
+          ],
+          "closest_process_time": 1701469537.665,
+          "closest_process_time_delta_seconds": 30.664999961853027
+        },
+        {
+          "attack": {
+            "Time of Attack": "1701469537.0",
+            "Tactic Name": "collection",
+            "Technique Name": "find files",
+            "PID": "7633",
+            "readable_time": "2023-12-01 18:25:37"
+          },
+          "matched_process_entity_ids": [
+            "88725476265014610a6b31c0e7d6ef80",
+            "0e103d87f7f9e037d441420b62eec8d6"
+          ],
+          "closest_process_time": 1701473051.823,
+          "closest_process_time_delta_seconds": 3514.8229999542236
+        },
+        {
+          "attack": {
+            "Time of Attack": "1701473102.0",
+            "Tactic Name": "collection",
+            "Technique Name": "find files",
+            "PID": "11179",
+            "readable_time": "2023-12-01 19:25:02"
+          },
+          "matched_process_entity_ids": [
+            "742e40703c5659d816f0eae7f190717e",
+            "1bfd3233e46398d0491599e302792d22"
+          ],
+          "closest_process_time": 1701477059.953,
+          "closest_process_time_delta_seconds": 3957.9530000686646
+        },
+        {
+          "attack": {
+            "Time of Attack": "1701477068.0",
+            "Tactic Name": "collection",
+            "Technique Name": "find files",
+            "PID": "14421",
+            "readable_time": "2023-12-01 20:31:08"
+          },
+          "matched_process_entity_ids": [
+            "5dc4b8bc718d69a416ff51081a2f5661",
+            "c72a32fec783bc23fd873451373cade8"
+          ],
+          "closest_process_time": 1701480789.733,
+          "closest_process_time_delta_seconds": 3721.7330000400543
+        },
+        {
+          "attack": {
+            "Time of Attack": "1701480800.0",
+            "Tactic Name": "collection",
+            "Technique Name": "find files",
+            "PID": "18197",
+            "readable_time": "2023-12-01 21:33:20"
+          },
+          "matched_process_entity_ids": [
+            "043ad5c5768cf58d11713dff8cd522ac",
+            "1fc49972f167b7b4c696e4f5046f262a"
+          ],
+          "closest_process_time": 1701485103.853,
+          "closest_process_time_delta_seconds": 4303.852999925613
+        }
+      ],
+      "warning": "PID matches are observed, but Time of Attack does not exactly match the matched Process seen/start time; do not use an exact composite PID/time join."
+    }
+  },
+  "ambiguities": [
+    "The files contain no data dictionary, so field semantics are inferred from names and usage.",
+    "The precise distinction between paired Process entities carrying seen time versus start time is undocumented.",
+    "Time of Attack is not an exact match for the same-PID Process timestamp.",
+    "attack_info.readable_time is four hours behind the UTC rendering of Time of Attack, but its intended timezone is undocumented.",
+    "PID reuse scope and host identity are not documented; no host column is present.",
+    "event id uniqueness/scope and the semantics of epoch, version, tgid, fd, and mode are undocumented.",
+    "label/subLabel propagation rules across nodes and edges are not documented.",
+    "Relationship direction is stored as from -> to, but the causal interpretation of each named relation should be validated before graph construction."
+  ]
+}
