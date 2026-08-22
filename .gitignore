@@ -7,8 +7,7 @@ venv/
 # The CICAPT-IIoT2024 source files are local, read-only inputs.
 data/raw/
 
-# Generated outputs can be large. Keep only the small schema report.
-data/processed/*
-!data/processed/schema_summary.json
-!data/processed/attack_*.json
-!data/processed/attack_*.graphml
+# Ignore generated outputs
+data/processed/
+!data/processed/attack_044_pid_152566.graphml
+!data/processed/attack_044_pid_152566.json

@@ -230,43 +230,128 @@ def _canonical_process_id(nodes: Mapping[str, Mapping[str, str]], pid: int) -> s
     return next((node_id for node_id in matches if nodes[node_id].get("command line")), matches[0] if matches else None)
 
 
+def _graphml_display_name(node: Mapping[str, Any]) -> str:
+    """Return a short Bloom caption without discarding detailed properties."""
+    if node.get("type") == "Process":
+        process_name = node.get("name") or Path(str(node.get("exe", ""))).name or "Process"
+        pid = normalize_pid(node.get("pid"))
+        return f"{process_name} (PID {pid})" if pid is not None else str(process_name)
+
+    path = str(node.get("path", "")).strip()
+    if path and path != "0":
+        return Path(path).name or path
+    remote_address = str(node.get("remote address", "")).strip()
+    remote_port = normalize_pid(node.get("remote port"))
+    if remote_address:
+        return f"{remote_address}:{remote_port}" if remote_port is not None else remote_address
+    local_address = str(node.get("local address", "")).strip()
+    local_port = normalize_pid(node.get("local port"))
+    if local_address:
+        return f"{local_address}:{local_port}" if local_port is not None else local_address
+    subtype = str(node.get("subtype") or "Artifact")
+    node_id = str(node.get("id", ""))
+    if subtype.lower() == "unknown":
+        subtype = "Artifact"
+    return f"{subtype} ({node_id[:8]})" if node_id else subtype
+
+
+def _graphml_relationship_type(value: str | None) -> str:
+    """Convert stored relationship names to Neo4j-style relationship types."""
+    if not value:
+        return "RELATED"
+    words = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", value)
+    return re.sub(r"[^A-Za-z0-9]+", "_", words).strip("_").upper() or "RELATED"
+
+
 def write_graphml(
     path: Path,
-    nodes: Mapping[str, Mapping[str, str]],
+    nodes: Mapping[str, Mapping[str, Any]],
     observed: Iterable[Mapping[str, str]],
     inferred: Iterable[Mapping[str, Any]],
+    *,
+    attack_properties: Mapping[str, Any] | None = None,
 ) -> None:
-    """Write observed and inferred relationships to directed GraphML."""
+    """Write Neo4j-friendly GraphML with native labels and relationship types."""
     namespace = "http://graphml.graphdrawing.org/xmlns"
     ET.register_namespace("", namespace)
     root = ET.Element(f"{{{namespace}}}graphml")
-    keys = {"node_type": "node", "label": "all", "subLabel": "node", "pid": "node", "ppid": "node", "name": "node", "path": "node", "relationship": "edge", "operation": "edge", "time": "edge", "evidence": "edge"}
+    keys = {
+        "labels": "node", "display_name": "node", "name": "node",
+        "process_name": "node", "node_type": "node", "original_id": "node",
+        "dataset_label": "all", "subLabel": "node", "pid": "node", "ppid": "node",
+        "command_line": "node", "path": "node", "timestamp": "node",
+        "attack_id": "all", "attack_index": "all", "attack_pid": "all",
+        "tactic": "all", "technique": "all", "label": "edge",
+        "relationship": "edge", "operation": "edge", "time": "edge",
+        "evidence_kind": "edge", "evidence": "edge",
+    }
     for key, scope in keys.items():
         ET.SubElement(root, f"{{{namespace}}}key", id=key, **{"for": scope, "attr.name": key, "attr.type": "string"})
     graph = ET.SubElement(root, f"{{{namespace}}}graph", edgedefault="directed")
+    common = dict(attack_properties or {})
     for node_id, node in nodes.items():
-        element = ET.SubElement(graph, f"{{{namespace}}}node", id=node_id)
-        values = {"node_type": node.get("type"), "label": node.get("label"), "subLabel": node.get("subLabel"), "pid": node.get("pid"), "ppid": node.get("ppid"), "name": node.get("name"), "path": node.get("path")}
+        node_type = node.get("type")
+        native_labels = f":{node_type}" if node_type else None
+        attributes = {"id": node_id}
+        if native_labels:
+            attributes["labels"] = native_labels
+        element = ET.SubElement(graph, f"{{{namespace}}}node", **attributes)
+        display_name = _graphml_display_name(node)
+        values = {
+            **common,
+            "labels": native_labels,
+            "display_name": display_name,
+            "name": display_name,
+            "process_name": node.get("name") if node_type == "Process" else None,
+            "node_type": node_type,
+            "original_id": node_id,
+            "dataset_label": node.get("label"),
+            "subLabel": node.get("subLabel"),
+            "pid": node.get("pid"),
+            "ppid": node.get("ppid"),
+            "command_line": node.get("command line"),
+            "path": node.get("path"),
+            "timestamp": node.get("entity_time"),
+        }
         for key, value in values.items():
-            if value:
-                ET.SubElement(element, f"{{{namespace}}}data", key=key).text = value
+            if value is not None and value != "":
+                ET.SubElement(element, f"{{{namespace}}}data", key=key).text = str(value)
     edge_number = 0
     for relationship in observed:
-        edge = ET.SubElement(graph, f"{{{namespace}}}edge", id=f"e{edge_number}", source=relationship["from"], target=relationship["to"])
+        relationship_type = _graphml_relationship_type(relationship.get("type"))
+        edge = ET.SubElement(graph, f"{{{namespace}}}edge", id=f"e{edge_number}", source=relationship["from"], target=relationship["to"], label=relationship_type)
         edge_number += 1
-        values = {"label": relationship.get("label"), "relationship": relationship.get("type"), "operation": relationship.get("operation"), "time": relationship.get("time"), "evidence": "observed provenance relationship"}
+        values = {
+            **common,
+            "label": relationship_type,
+            "relationship": relationship.get("type"),
+            "dataset_label": relationship.get("label"),
+            "operation": relationship.get("operation"),
+            "time": relationship.get("time"),
+            "evidence_kind": "observed",
+            "evidence": "observed provenance relationship",
+        }
         for key, value in values.items():
-            if value:
+            if value is not None and value != "":
                 ET.SubElement(edge, f"{{{namespace}}}data", key=key).text = str(value)
     for relationship in inferred:
         source = _canonical_process_id(nodes, int(relationship["parent_pid"]))
         target = _canonical_process_id(nodes, int(relationship["child_pid"]))
         if source is None or target is None:
             continue
-        edge = ET.SubElement(graph, f"{{{namespace}}}edge", id=f"e{edge_number}", source=source, target=target)
+        relationship_type = "INFERRED_PID_LINEAGE"
+        edge = ET.SubElement(graph, f"{{{namespace}}}edge", id=f"e{edge_number}", source=source, target=target, label=relationship_type)
         edge_number += 1
-        ET.SubElement(edge, f"{{{namespace}}}data", key="relationship").text = "inferred_pid_lineage"
-        ET.SubElement(edge, f"{{{namespace}}}data", key="evidence").text = str(relationship["evidence"])
+        values = {
+            **common,
+            "label": relationship_type,
+            "relationship": "inferred_pid_lineage",
+            "evidence_kind": "inferred",
+            "evidence": relationship["evidence"],
+        }
+        for key, value in values.items():
+            if value is not None and value != "":
+                ET.SubElement(edge, f"{{{namespace}}}data", key=key).text = str(value)
     path.parent.mkdir(parents=True, exist_ok=True)
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
 
@@ -288,7 +373,20 @@ def main() -> None:
     graphml = args.graphml or Path("data/processed") / f"{stem}.graphml"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    write_graphml(graphml, nodes, observed, inferred)
+    metadata = report["attack"]["metadata"]
+    write_graphml(
+        graphml,
+        nodes,
+        observed,
+        inferred,
+        attack_properties={
+            "attack_id": f"attack_{args.attack_index:03d}",
+            "attack_index": args.attack_index,
+            "attack_pid": pid,
+            "tactic": metadata.get("Tactic Name"),
+            "technique": metadata.get("Technique Name"),
+        },
+    )
     print(f"Wrote {output}\nWrote {graphml}")
     print(f"Attack {args.attack_index}, PID {pid}: {len(nodes)} nodes, {len(observed)} observed and {len(inferred)} inferred relationships")
 

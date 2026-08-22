@@ -51,13 +51,44 @@ class IncidentTests(unittest.TestCase):
 
             report, nodes, observed, inferred = extract_incident(provenance, attacks, 0)
             graphml = root / "result.graphml"
-            write_graphml(graphml, nodes, observed, inferred)
-            ET.parse(graphml)
+            write_graphml(
+                graphml,
+                nodes,
+                observed,
+                inferred,
+                attack_properties={
+                    "attack_id": "attack_000",
+                    "attack_index": 0,
+                    "tactic": "lateral movement",
+                    "technique": "ssh",
+                },
+            )
+            graphml_root = ET.parse(graphml).getroot()
 
         self.assertEqual(report["anchor_process"]["provenance_minus_metadata_seconds"], 10.0)
         self.assertEqual([item["child_pid"] for item in inferred], [11])
         self.assertEqual(report["incident_graph"]["node_count"], 6)
         self.assertEqual(report["incident_graph"]["observed_relationship_count"], 4)
+        namespace = {"g": "http://graphml.graphdrawing.org/xmlns"}
+        graphml_nodes = graphml_root.findall(".//g:node", namespace)
+        self.assertEqual({node.get("labels") for node in graphml_nodes}, {":Process", ":Artifact"})
+        graphml_edges = graphml_root.findall(".//g:edge", namespace)
+        self.assertEqual(
+            {edge.get("label") for edge in graphml_edges},
+            {"USED", "WAS_TRIGGERED_BY", "WAS_GENERATED_BY", "INFERRED_PID_LINEAGE"},
+        )
+        key_names = {
+            key.get("id"): key.get("attr.name")
+            for key in graphml_root.findall("g:key", namespace)
+        }
+        root_exec = next(node for node in graphml_nodes if node.get("id") == "root_exec")
+        properties = {
+            key_names[data.get("key")]: data.text
+            for data in root_exec.findall("g:data", namespace)
+        }
+        self.assertEqual(properties["display_name"], "sh (PID 10)")
+        self.assertEqual(properties["attack_index"], "0")
+        self.assertEqual(properties["original_id"], "root_exec")
 
 
 if __name__ == "__main__":
