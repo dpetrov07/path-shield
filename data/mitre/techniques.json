@@ -1,0 +1,121 @@
+[
+  {
+    "attack_id": "T1021.004",
+    "name": "Remote Services: SSH",
+    "tactic": "Lateral Movement",
+    "description": "Use Secure Shell (SSH) with valid accounts to access a remote Linux, macOS, or ESXi system and run commands as the logged-on user.",
+    "source_url": "https://attack.mitre.org/techniques/T1021/004/"
+  },
+  {
+    "attack_id": "T1570",
+    "name": "Lateral Tool Transfer",
+    "tactic": "Lateral Movement",
+    "description": "Transfer tools or payload files between systems in a compromised environment using scp, sftp, rsync, SMB, or other native transfer methods.",
+    "source_url": "https://attack.mitre.org/techniques/T1570/"
+  },
+  {
+    "attack_id": "T1059.004",
+    "name": "Command and Scripting Interpreter: Unix Shell",
+    "tactic": "Execution",
+    "description": "Execute commands or scripts through Unix shells such as sh, bash, or zsh, including chained commands, permission changes, and payload execution.",
+    "source_url": "https://attack.mitre.org/techniques/T1059/004/"
+  },
+  {
+    "attack_id": "T1136.001",
+    "name": "Create Account: Local Account",
+    "tactic": "Persistence",
+    "description": "Create a local operating-system account to maintain access to a host, often with commands or native account-management tools.",
+    "source_url": "https://attack.mitre.org/techniques/T1136/001/"
+  },
+  {
+    "attack_id": "T1078",
+    "name": "Valid Accounts",
+    "tactic": "Defense Evasion, Persistence, Privilege Escalation, Initial Access",
+    "description": "Use legitimate credentials for local, domain, cloud, or service accounts to access systems and perform actions as an authorized user.",
+    "source_url": "https://attack.mitre.org/techniques/T1078/"
+  },
+  {
+    "attack_id": "T1555.003",
+    "name": "Credentials from Password Stores: Credentials from Web Browsers",
+    "tactic": "Credential Access",
+    "description": "Extract saved usernames, passwords, cookies, or other credentials from web browsers and browser profile stores.",
+    "source_url": "https://attack.mitre.org/techniques/T1555/003/"
+  },
+  {
+    "attack_id": "T1552.001",
+    "name": "Unsecured Credentials: Credentials In Files",
+    "tactic": "Credential Access",
+    "description": "Search files, configuration, shell history, scripts, or other local content for plaintext or otherwise unsecured credentials.",
+    "source_url": "https://attack.mitre.org/techniques/T1552/001/"
+  },
+  {
+    "attack_id": "T1005",
+    "name": "Data from Local System",
+    "tactic": "Collection",
+    "description": "Collect files and data from local file systems or databases on a compromised host.",
+    "source_url": "https://attack.mitre.org/techniques/T1005/"
+  },
+  {
+    "attack_id": "T1113",
+    "name": "Screen Capture",
+    "tactic": "Collection",
+    "description": "Capture screenshots or screen video to collect visible user, application, or credential information.",
+    "source_url": "https://attack.mitre.org/techniques/T1113/"
+  },
+  {
+    "attack_id": "T1074.001",
+    "name": "Data Staged: Local Data Staging",
+    "tactic": "Collection",
+    "description": "Stage collected data in a local directory or file before exfiltration, often by copying selected content into a temporary location.",
+    "source_url": "https://attack.mitre.org/techniques/T1074/001/"
+  },
+  {
+    "attack_id": "T1560.001",
+    "name": "Archive Collected Data: Archive via Utility",
+    "tactic": "Collection",
+    "description": "Compress or archive collected files with utilities such as tar, gzip, zip, or rar to prepare data for transfer.",
+    "source_url": "https://attack.mitre.org/techniques/T1560/001/"
+  },
+  {
+    "attack_id": "T1041",
+    "name": "Exfiltration Over C2 Channel",
+    "tactic": "Exfiltration",
+    "description": "Exfiltrate collected data through an existing command-and-control channel.",
+    "source_url": "https://attack.mitre.org/techniques/T1041/"
+  },
+  {
+    "attack_id": "T1105",
+    "name": "Ingress Tool Transfer",
+    "tactic": "Command and Control",
+    "description": "Transfer tools or files from an external system into a compromised environment, including downloads with curl, wget, FTP, or other protocols.",
+    "source_url": "https://attack.mitre.org/techniques/T1105/"
+  },
+  {
+    "attack_id": "T1087.001",
+    "name": "Account Discovery: Local Account",
+    "tactic": "Discovery",
+    "description": "Enumerate local operating-system accounts and account details using commands, APIs, or system files.",
+    "source_url": "https://attack.mitre.org/techniques/T1087/001/"
+  },
+  {
+    "attack_id": "T1082",
+    "name": "System Information Discovery",
+    "tactic": "Discovery",
+    "description": "Collect operating-system, host name, version, architecture, or other system details from a host.",
+    "source_url": "https://attack.mitre.org/techniques/T1082/"
+  },
+  {
+    "attack_id": "T1016",
+    "name": "System Network Configuration Discovery",
+    "tactic": "Discovery",
+    "description": "Discover network interfaces, addresses, routes, DNS settings, or other network configuration details.",
+    "source_url": "https://attack.mitre.org/techniques/T1016/"
+  },
+  {
+    "attack_id": "T1083",
+    "name": "File and Directory Discovery",
+    "tactic": "Discovery",
+    "description": "Enumerate files and directories or search for paths and content of interest on a system.",
+    "source_url": "https://attack.mitre.org/techniques/T1083/"
+  }
+]
