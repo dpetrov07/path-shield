@@ -1,6 +1,5 @@
-"""PathShield dataset research utilities."""
+"""Small incident extraction utilities for PathShield."""
 
-from .inspection import inspect_dataset
-from .attack_investigation import investigate_attack
+from .incident import extract_incident, write_graphml
 
-__all__ = ["inspect_dataset", "investigate_attack"]
+__all__ = ["extract_incident", "write_graphml"]

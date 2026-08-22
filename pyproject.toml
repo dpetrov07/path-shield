@@ -5,10 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pathshield"
 version = "0.1.0"
-description = "Incremental inspection tools for the PathShield research dataset"
+description = "Bounded incident extraction for the PathShield research dataset"
 requires-python = ">=3.11"
 dependencies = []
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
