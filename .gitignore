@@ -1,8 +1,10 @@
 __pycache__/
 *.py[cod]
+*.egg-info/
 .pytest_cache/
 .venv/
 venv/
+.env
 
 # The CICAPT-IIoT2024 source files are local, read-only inputs.
 data/raw/
