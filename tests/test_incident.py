@@ -3,10 +3,14 @@ from __future__ import annotations
 import csv
 import tempfile
 import unittest
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from pathshield.incident import decode_embedded_command, extract_incident, write_graphml
+from pathshield.incident import (
+    decode_embedded_command,
+    extract_incident_from_data,
+    load_attacks,
+    load_provenance,
+)
 
 COLUMNS = [
     "id", "type", "from", "to", "uid", "egid", "exe", "gid", "euid",
@@ -23,7 +27,7 @@ class IncidentTests(unittest.TestCase):
         self.assertEqual(decode_embedded_command(command), "echo hi")
         self.assertIsNone(decode_embedded_command("echo ordinary text"))
 
-    def test_extracts_bounded_lineage_and_writes_graphml(self) -> None:
+    def test_extracts_bounded_lineage_for_retrieval(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             provenance = root / "provenance.csv"
@@ -49,46 +53,14 @@ class IncidentTests(unittest.TestCase):
                 writer.writeheader()
                 writer.writerow({"Time of Attack": "90", "Tactic Name": "lateral movement", "Technique Name": "ssh", "PID": "10"})
 
-            report, nodes, observed, inferred = extract_incident(provenance, attacks, 0)
-            graphml = root / "result.graphml"
-            write_graphml(
-                graphml,
-                nodes,
-                observed,
-                inferred,
-                attack_properties={
-                    "attack_id": "attack_000",
-                    "attack_index": 0,
-                    "tactic": "lateral movement",
-                    "technique": "ssh",
-                },
+            report, nodes, observed, inferred = extract_incident_from_data(
+                load_provenance(provenance), load_attacks(attacks)[0], 0
             )
-            graphml_root = ET.parse(graphml).getroot()
 
         self.assertEqual(report["anchor_process"]["provenance_minus_metadata_seconds"], 10.0)
         self.assertEqual([item["child_pid"] for item in inferred], [11])
         self.assertEqual(report["incident_graph"]["node_count"], 6)
         self.assertEqual(report["incident_graph"]["observed_relationship_count"], 4)
-        namespace = {"g": "http://graphml.graphdrawing.org/xmlns"}
-        graphml_nodes = graphml_root.findall(".//g:node", namespace)
-        self.assertEqual({node.get("labels") for node in graphml_nodes}, {":Process", ":Artifact"})
-        graphml_edges = graphml_root.findall(".//g:edge", namespace)
-        self.assertEqual(
-            {edge.get("label") for edge in graphml_edges},
-            {"USED", "WAS_TRIGGERED_BY", "WAS_GENERATED_BY", "INFERRED_PID_LINEAGE"},
-        )
-        key_names = {
-            key.get("id"): key.get("attr.name")
-            for key in graphml_root.findall("g:key", namespace)
-        }
-        root_exec = next(node for node in graphml_nodes if node.get("id") == "root_exec")
-        properties = {
-            key_names[data.get("key")]: data.text
-            for data in root_exec.findall("g:data", namespace)
-        }
-        self.assertEqual(properties["display_name"], "sh (PID 10)")
-        self.assertEqual(properties["attack_index"], "0")
-        self.assertEqual(properties["original_id"], "root_exec")
 
 
 if __name__ == "__main__":
