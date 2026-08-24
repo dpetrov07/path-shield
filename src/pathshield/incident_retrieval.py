@@ -45,6 +45,19 @@ class IncidentDocument:
     inferred_lineage_count: int
 
 
+@dataclass(frozen=True)
+class IncidentGraph:
+    """One extractor result prepared for incident-scoped Neo4j storage."""
+
+    attack_index: int
+    attack_pid: int
+    tactic: str
+    attack_description: str
+    nodes: Mapping[str, Mapping[str, Any]]
+    observed: Sequence[Mapping[str, Any]]
+    inferred: Sequence[Mapping[str, Any]]
+
+
 def _clean_text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
 
@@ -206,21 +219,41 @@ def build_incident_document(
     )
 
 
-def build_incident_documents(
+def build_incident_corpus(
     provenance_path: Path = DEFAULT_PROVENANCE_PATH,
     attack_info_path: Path = DEFAULT_ATTACK_INFO_PATH,
-) -> list[IncidentDocument]:
-    """Load the dataset once, then apply the existing extractor to every attack."""
+) -> tuple[list[IncidentDocument], list[IncidentGraph]]:
+    """Build retrieval documents and graph payloads in one extraction pass."""
     provenance = load_provenance(provenance_path)
     attacks = load_attacks(attack_info_path)
     documents: list[IncidentDocument] = []
+    graphs: list[IncidentGraph] = []
     for attack_index, attack in enumerate(attacks):
         report, nodes, observed, inferred = extract_incident_from_data(
             provenance, attack, attack_index
         )
-        documents.append(
-            build_incident_document(report, nodes, observed, inferred)
+        document = build_incident_document(report, nodes, observed, inferred)
+        documents.append(document)
+        graphs.append(
+            IncidentGraph(
+                attack_index=document.attack_index,
+                attack_pid=document.attack_pid,
+                tactic=document.tactic,
+                attack_description=document.attack_description,
+                nodes=nodes,
+                observed=observed,
+                inferred=inferred,
+            )
         )
+    return documents, graphs
+
+
+def build_incident_documents(
+    provenance_path: Path = DEFAULT_PROVENANCE_PATH,
+    attack_info_path: Path = DEFAULT_ATTACK_INFO_PATH,
+) -> list[IncidentDocument]:
+    """Build retrieval documents for all attacks."""
+    documents, _ = build_incident_corpus(provenance_path, attack_info_path)
     return documents
 
 

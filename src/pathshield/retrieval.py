@@ -13,11 +13,16 @@ if __package__ in {None, ""}:
 from pathshield.incident_retrieval import (
     DEFAULT_ATTACK_INFO_PATH,
     DEFAULT_PROVENANCE_PATH,
-    build_incident_documents,
+    build_incident_corpus,
     format_incident_results,
     index_incidents,
     query_incidents,
     sparse_incidents,
+)
+from pathshield.graph_retrieval import (
+    format_graph_evidence,
+    index_incident_graphs,
+    retrieve_graph_evidence,
 )
 from pathshield.technique_retrieval import (
     DEFAULT_CORPUS_PATH,
@@ -116,7 +121,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         driver, database = neo4j_driver()
         with driver:
             if args.index:
-                incidents = build_incident_documents(args.provenance, args.attack_info)
+                incidents, graphs = build_incident_corpus(
+                    args.provenance, args.attack_info
+                )
                 techniques = load_corpus(args.corpus)
                 texts = [item.document_text for item in incidents] + [
                     item.document_text for item in techniques
@@ -125,9 +132,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                 split = len(incidents)
                 index_incidents(driver, database, incidents, embeddings[:split])
                 index_techniques(driver, database, techniques, embeddings[split:])
+                graph_node_count, graph_relationship_count = index_incident_graphs(
+                    driver, database, graphs
+                )
                 print(
                     f"Indexed {len(incidents)} PathShield incidents and "
-                    f"{len(techniques)} MITRE ATT&CK techniques in Neo4j."
+                    f"{len(techniques)} MITRE ATT&CK techniques in Neo4j.\n"
+                    f"Loaded {graph_node_count} incident graph nodes and "
+                    f"{graph_relationship_count} relationships."
                 )
                 sparse = sparse_incidents(incidents)
                 if sparse:
