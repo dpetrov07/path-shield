@@ -38,7 +38,7 @@ class IncidentDocument:
     attack_index: int
     attack_pid: int
     tactic: str
-    technique: str
+    attack_description: str
     document_text: str
     node_count: int
     observed_relationship_count: int
@@ -171,14 +171,14 @@ def build_incident_document(
     attack_index = int(attack["index_zero_based"])
     attack_pid = int(report["anchor_process"]["pid"])
     tactic = _clean_text(metadata.get("Tactic Name"))
-    technique = _clean_text(metadata.get("Technique Name"))
+    attack_description = _clean_text(metadata.get("Technique Name"))
     processes = _process_nodes(nodes)
     process_names = _process_names(processes)
 
     sections = [
         f"PathShield attack {attack_index}.",
         f"Tactic: {tactic}." if tactic else "",
-        f"Observed behavior: {technique}." if technique else "",
+        f"Observed behavior: {attack_description}." if attack_description else "",
     ]
     details = [
         ("Processes", process_names),
@@ -198,7 +198,7 @@ def build_incident_document(
         attack_index=attack_index,
         attack_pid=attack_pid,
         tactic=tactic,
-        technique=technique,
+        attack_description=attack_description,
         document_text=" ".join(section for section in sections if section),
         node_count=int(graph["node_count"]),
         observed_relationship_count=int(graph["observed_relationship_count"]),
@@ -254,7 +254,7 @@ def index_incidents(
         SET incident.attack_id = row.attack_id,
             incident.attack_pid = row.attack_pid,
             incident.tactic = row.tactic,
-            incident.technique = row.technique,
+            incident.attack_description = row.attack_description,
             incident.document_text = row.document_text,
             incident.node_count = row.node_count,
             incident.observed_relationship_count = row.observed_relationship_count,
@@ -262,6 +262,7 @@ def index_incidents(
             incident.embedding = row.embedding,
             incident.embedding_model = $embedding_model,
             incident.corpus = $corpus
+        REMOVE incident.technique
         """,
         rows=rows,
         embedding_model=EMBEDDING_MODEL,
@@ -297,7 +298,7 @@ def query_incidents(
         RETURN node.attack_index AS attack_index,
                node.attack_pid AS attack_pid,
                node.tactic AS tactic,
-               node.technique AS technique,
+               node.attack_description AS attack_description,
                node.document_text AS document_text,
                score
         ORDER BY score DESC
@@ -315,7 +316,7 @@ def format_incident_results(results: Sequence[Mapping[str, Any]]) -> str:
     lines = []
     for rank, result in enumerate(results, start=1):
         lines.append(
-            f"{rank}. Attack {result['attack_index']} — {result['technique']} — "
+            f"{rank}. Attack {result['attack_index']} — {result['attack_description']} — "
             f"{float(result['score']):.3f}\n"
             f"   Tactic: {result['tactic']} | PID: {result['attack_pid']}\n"
             f"   {text_snippet(str(result['document_text']), 180)}"

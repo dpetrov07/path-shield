@@ -2,12 +2,26 @@
 
 PathShield provides semantic retrieval over CICAPT-IIoT2024 incidents and MITRE ATT&CK techniques.
 
+## Current Workflow
+- extracts bounded incident evidence for all 58 attack rows
+- builds deterministic incident documents from processes, commands, paths, and relationships
+- turns PathShield incidents and MITRE ATT&CK information into searchable vectors
+- stores them in separate Neo4j vector indexes
+- searches both indexes with one plain-English query
+- formats the retrieved results as labeled context for a future generated answer.
+
 ## Data
 
 Place the read-only source files in `data/raw/`:
 
 - `Phase2_Provenance.csv`
 - `attack_info.csv`
+
+## How it works
+
+During indexing, PathShield reads the provenance data, constructs a retrieval document per attack, embeds those documents and the MITRE corpus, and stores both collections in Neo4j.
+
+During a query, the input text is embedded. Neo4j uses that vector to independently find the nearest PathShield incidents and MITRE techniques. The results retain their identifiers, metadata, similarity scores, and evidence text so they can be converted into clearly sourced prompt context.
 
 ## Retrieval
 
