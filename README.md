@@ -8,6 +8,7 @@ PathShield provides semantic retrieval over CICAPT-IIoT2024 incidents and MITRE 
 - turns PathShield incidents and MITRE ATT&CK information into searchable vectors
 - stores them in separate Neo4j vector indexes
 - searches both indexes with one plain-English query
+- retrieves scoped Process, Artifact, and relationship evidence for the top incidents
 - uses the retrieved evidence to generate a grounded answer with OpenAI
 
 ## Data
@@ -19,9 +20,9 @@ Place the read-only source files in `data/raw/`:
 
 ## How it works
 
-During indexing, PathShield reads the provenance data, constructs a retrieval document per attack, embeds those documents and the MITRE corpus, and stores both collections in Neo4j.
+During indexing, PathShield reads the provenance data once, constructs a retrieval document and scoped graph for each attack, embeds the documents and MITRE corpus, and stores everything in Neo4j.
 
-During a query, the input text is embedded. Neo4j uses that vector to independently find the nearest PathShield incidents and MITRE techniques. The results are formatted as sourced context that can be sent to an OpenAI model for a grounded answer.
+During a query, the input text is embedded. Neo4j finds the nearest PathShield incidents and MITRE techniques, then loads graph evidence for the two closest incidents. The results are formatted as sourced context that can be sent to an OpenAI model for a grounded answer.
 
 ## Retrieval
 
@@ -49,7 +50,7 @@ python3 src/pathshield/retrieval.py --index
 Search both indexes with one plain-English query:
 
 ```bash
-python3 src/pathshield/retrieval.py --query "copies a payload over scp and executes it with ssh" --top-k 5
+python3 src/pathshield/retrieval.py --query "copies a payload over scp and executes it with ssh"
 ```
 
 Add `--answer` to generate an answer from the retrieved evidence:
