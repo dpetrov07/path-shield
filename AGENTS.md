@@ -11,9 +11,10 @@ The repository currently:
 - maintains a curated corpus of 17 MITRE ATT&CK techniques;
 - creates OpenAI embeddings for both corpora;
 - stores and searches them in separate Neo4j vector indexes; and
-- formats retrieved incidents and techniques as labeled prompt context.
+- formats retrieved incidents and techniques as labeled prompt context; and
+- generates a concise grounded answer through the OpenAI Responses API when requested.
 
-It does not generate an LLM answer yet. The next step is a small grounded generation call using the existing prompt context.
+Retrieval results remain visible so generated answers can be checked against their evidence.
 
 ## Important Files
 

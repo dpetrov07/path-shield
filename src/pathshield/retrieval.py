@@ -28,6 +28,8 @@ from pathshield.technique_retrieval import (
 )
 from pathshield.vector import create_embeddings, neo4j_driver, openai_client
 
+GENERATION_MODEL = "gpt-5.4-mini"
+
 
 def dual_retrieval(
     driver: Any, database: str, query_embedding: Sequence[float], top_k: int
@@ -66,11 +68,33 @@ def build_prompt_context(
     return "\n".join(lines)
 
 
+def generate_answer(client: Any, query: str, context: str) -> str:
+    """Generate a concise answer grounded only in retrieved evidence."""
+    response = client.responses.create(
+        model=GENERATION_MODEL,
+        instructions=(
+            "Analyze the suspicious behavior using only the retrieved evidence. "
+            "Briefly identify the strongest MITRE ATT&CK matches and the closest "
+            "supporting PathShield incident, citing their bracketed identifiers. "
+            "Use at most three short bullets. Omit weak or rejected results unless "
+            "there is not enough evidence to identify a meaningful match. "
+            "Treat similarity as supporting evidence, not proof."
+        ),
+        input=f"Behavior to analyze:\n{query}\n\n{context}",
+        store=False,
+    )
+    answer = response.output_text.strip()
+    if not answer:
+        raise RuntimeError("The generation response did not contain any text")
+    return answer
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--index", action="store_true", help="index both retrieval corpora")
     action.add_argument("--query", help="plain-English suspicious behavior to search for")
+    parser.add_argument("--answer", action="store_true", help="generate an answer from retrieved evidence")
     parser.add_argument("--top-k", type=int, default=5, help="results per corpus (default: 5)")
     parser.add_argument("--provenance", type=Path, default=DEFAULT_PROVENANCE_PATH, help=argparse.SUPPRESS)
     parser.add_argument("--attack-info", type=Path, default=DEFAULT_ATTACK_INFO_PATH, help=argparse.SUPPRESS)
@@ -84,6 +108,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit("--top-k must be between 1 and 10")
     if args.query is not None and not args.query.strip():
         raise SystemExit("--query must not be empty")
+    if args.answer and args.query is None:
+        raise SystemExit("--answer requires --query")
 
     try:
         client = openai_client()
@@ -119,6 +145,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(format_incident_results(incidents))
             print("\nRelevant MITRE ATT&CK techniques:")
             print(format_technique_results(techniques))
+            if args.answer:
+                context = build_prompt_context(incidents, techniques)
+                print("\nAnswer:")
+                print(generate_answer(client, args.query, context))
             return 0
     except (OSError, ValueError, RuntimeError, TimeoutError) as error:
         print(f"Error: {error}", file=sys.stderr)
