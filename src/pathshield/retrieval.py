@@ -34,7 +34,7 @@ from pathshield.technique_retrieval import (
 from pathshield.vector import create_embeddings, neo4j_driver, openai_client
 
 GENERATION_MODEL = "gpt-5.4-mini"
-SEMANTIC_MATCH_COUNT = 5
+SEMANTIC_MATCH_COUNT = 2
 GRAPH_INCIDENT_COUNT = 2
 
 
@@ -93,14 +93,15 @@ def generate_answer(client: Any, context: str) -> str:
         model=GENERATION_MODEL,
         instructions=(
             "Analyze the suspicious behavior using only the retrieved evidence. "
-            "Return exactly three short plain-text lines using this format: "
-            "'Assessment: <one-sentence conclusion>', "
-            "'MITRE: <up to two bracketed ATT&CK IDs, names, and brief evidence>', and "
-            "'PathShield: <closest bracketed attack ID and brief graph evidence>'. "
-            "Do not use bullets, Markdown emphasis, similarity scores, or discuss weak "
-            "and rejected matches. Distinguish observed relationships from inferred "
-            "lineage when relevant, never invent relationships, and say in the assessment "
-            "when the supplied evidence is insufficient."
+            "Return exactly five short plain-text lines with these labels: "
+            "'Likely behavior:', 'Closest PathShield incident:', "
+            "'Relevant MITRE techniques:', 'Supporting graph evidence:', and "
+            "'Uncertainty / missing evidence:'. Cite bracketed attack indexes and MITRE "
+            "IDs where relevant. Keep each line to one short sentence, name exactly one "
+            "closest incident and at most two MITRE techniques, and do not mention other "
+            "retrieved or rejected matches. Do not use bullets, Markdown emphasis, or "
+            "similarity scores. Use only supplied evidence, distinguish observed graph "
+            "relationships from inferred lineage, and never invent relationships."
         ),
         input=context,
         store=False,
