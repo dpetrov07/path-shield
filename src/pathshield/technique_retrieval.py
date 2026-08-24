@@ -8,11 +8,10 @@ from pathlib import Path
 from typing import Any, Sequence
 
 from pathshield.vector import (
-    EMBEDDING_DIMENSIONS,
     EMBEDDING_MODEL,
     PROJECT_ROOT,
+    ensure_vector_index,
     text_snippet,
-    wait_for_index,
 )
 
 DEFAULT_CORPUS_PATH = PROJECT_ROOT / "data" / "mitre" / "techniques.json"
@@ -101,18 +100,9 @@ def index_techniques(
         corpus=TECHNIQUE_CORPUS_NAME,
         database_=database,
     )
-    driver.execute_query(
-        f"""
-        CREATE VECTOR INDEX {TECHNIQUE_VECTOR_INDEX_NAME} IF NOT EXISTS
-        FOR (technique:MitreTechnique) ON (technique.embedding)
-        OPTIONS {{indexConfig: {{
-            `vector.dimensions`: {EMBEDDING_DIMENSIONS},
-            `vector.similarity_function`: 'cosine'
-        }}}}
-        """,
-        database_=database,
+    ensure_vector_index(
+        driver, database, TECHNIQUE_VECTOR_INDEX_NAME, "MitreTechnique"
     )
-    wait_for_index(driver, database, TECHNIQUE_VECTOR_INDEX_NAME)
 
 
 def query_techniques(driver: Any, database: str, embedding: Sequence[float], top_k: int) -> list[dict[str, Any]]:

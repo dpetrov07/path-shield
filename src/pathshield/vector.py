@@ -87,5 +87,23 @@ def wait_for_index(driver: Any, database: str, index_name: str) -> None:
     raise TimeoutError(f"Vector index {index_name!r} did not become ONLINE")
 
 
+def ensure_vector_index(
+    driver: Any, database: str, index_name: str, node_label: str
+) -> None:
+    """Create a cosine embedding index if needed and wait until it is ready."""
+    driver.execute_query(
+        f"""
+        CREATE VECTOR INDEX {index_name} IF NOT EXISTS
+        FOR (node:{node_label}) ON (node.embedding)
+        OPTIONS {{indexConfig: {{
+            `vector.dimensions`: {EMBEDDING_DIMENSIONS},
+            `vector.similarity_function`: 'cosine'
+        }}}}
+        """,
+        database_=database,
+    )
+    wait_for_index(driver, database, index_name)
+
+
 def text_snippet(text: str, limit: int = 120) -> str:
     return text if len(text) <= limit else text[: limit - 1].rstrip() + "…"

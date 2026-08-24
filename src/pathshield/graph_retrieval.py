@@ -143,10 +143,6 @@ def index_incident_graphs(
     )
 
 
-def _record_data(record: Any) -> dict[str, Any]:
-    return record.data() if hasattr(record, "data") else dict(record)
-
-
 def _attack_index(value: Any) -> int | None:
     try:
         return int(value)
@@ -203,7 +199,7 @@ def retrieve_graph_evidence(
     }
     kept_node_ids: dict[int, set[str]] = {index: set() for index in requested}
     for record in node_records:
-        node = _record_data(record)
+        node = record.data()
         index = _attack_index(node.get("attack_index"))
         if index not in requested_set:
             continue
@@ -237,7 +233,7 @@ def retrieve_graph_evidence(
         **parameters,
     )
     for record in relationship_records:
-        relationship = _record_data(record)
+        relationship = record.data()
         index = _attack_index(relationship.get("attack_index"))
         if index not in requested_set:
             continue

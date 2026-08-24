@@ -11,12 +11,14 @@ PathShield provides semantic retrieval over CICAPT-IIoT2024 incidents and MITRE 
 - retrieves scoped Process, Artifact, and relationship evidence for the top incidents
 - uses the retrieved evidence to generate a grounded answer with OpenAI
 
-## Data
+## Dataset
 
-Place the read-only source files in `data/raw/`:
+Download the Phase 2 provenance CSV and `Attack_info.csv` from the [official CICAPT-IIoT2024 dataset page](https://www.unb.ca/cic/datasets/iiot-dataset-2024.html). The raw files are not committed; place them in `data/raw/` as:
 
 - `Phase2_Provenance.csv`
 - `attack_info.csv`
+
+Created by the Canadian Institute for Cybersecurity (CIC), University of New Brunswick. Citation: Erfan Ghiasvand, Suprio Ray, Shahrear Iqbal, Sajjad Dadkhah, and Ali A. Ghorbani, “CICAPT-IIOT: A provenance-based APT attack dataset for IIoT environment,” 2024.
 
 ## How it works
 
@@ -58,6 +60,12 @@ Add `--answer` to generate an answer from the retrieved evidence:
 ```bash
 python3 src/pathshield/retrieval.py --query "copies a payload over scp and executes it with ssh" --answer
 ```
+
+## Evaluation
+
+Retrieval quality is checked with 13 manually curated, reworded behavior descriptions mapped to expected PathShield attack indexes and MITRE technique IDs. Top 1 and top 2 use only Neo4j embedding cosine similarity; the LLM is not involved. Some cases allow multiple incident IDs for repeated behavior. This is a retrieval sanity check, not formal ground truth or unknown-attack detection.
+
+Current results: incident top 1 `12/13` (92%), incident top 2 `13/13` (100%), and MITRE top 2 `12/13` (92%).
 
 ## Tests
 

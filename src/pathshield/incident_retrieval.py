@@ -18,10 +18,9 @@ from pathshield.incident import (
     normalize_pid,
 )
 from pathshield.vector import (
-    EMBEDDING_DIMENSIONS,
     EMBEDDING_MODEL,
+    ensure_vector_index,
     text_snippet,
-    wait_for_index,
 )
 
 DEFAULT_PROVENANCE_PATH = Path("data/raw/Phase2_Provenance.csv")
@@ -83,10 +82,6 @@ def _process_nodes(
         (node for node in nodes.values() if node.get("type") == "Process"),
         key=_process_sort_key,
     )
-
-
-def _process_names(processes: Sequence[Mapping[str, Any]]) -> list[str]:
-    return _ordered_unique([_clean_text(node.get("name")) for node in processes])
 
 
 def _commands(processes: Sequence[Mapping[str, Any]]) -> list[str]:
@@ -186,7 +181,9 @@ def build_incident_document(
     tactic = _clean_text(metadata.get("Tactic Name"))
     attack_description = _clean_text(metadata.get("Technique Name"))
     processes = _process_nodes(nodes)
-    process_names = _process_names(processes)
+    process_names = _ordered_unique([
+        _clean_text(node.get("name")) for node in processes
+    ])
 
     sections = [
         f"PathShield attack {attack_index}.",
@@ -248,15 +245,6 @@ def build_incident_corpus(
     return documents, graphs
 
 
-def build_incident_documents(
-    provenance_path: Path = DEFAULT_PROVENANCE_PATH,
-    attack_info_path: Path = DEFAULT_ATTACK_INFO_PATH,
-) -> list[IncidentDocument]:
-    """Build retrieval documents for all attacks."""
-    documents, _ = build_incident_corpus(provenance_path, attack_info_path)
-    return documents
-
-
 def index_incidents(
     driver: Any,
     database: str,
@@ -302,18 +290,9 @@ def index_incidents(
         corpus=INCIDENT_CORPUS_NAME,
         database_=database,
     )
-    driver.execute_query(
-        f"""
-        CREATE VECTOR INDEX {INCIDENT_VECTOR_INDEX_NAME} IF NOT EXISTS
-        FOR (incident:Incident) ON (incident.embedding)
-        OPTIONS {{indexConfig: {{
-            `vector.dimensions`: {EMBEDDING_DIMENSIONS},
-            `vector.similarity_function`: 'cosine'
-        }}}}
-        """,
-        database_=database,
+    ensure_vector_index(
+        driver, database, INCIDENT_VECTOR_INDEX_NAME, "Incident"
     )
-    wait_for_index(driver, database, INCIDENT_VECTOR_INDEX_NAME)
 
 
 def query_incidents(
