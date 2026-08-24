@@ -1,6 +1,6 @@
 # PathShield
 
-PathShield extracts focused incident graphs from the CICAPT-IIoT2024 provenance dataset.
+PathShield provides semantic retrieval over CICAPT-IIoT2024 incidents and MITRE ATT&CK techniques.
 
 ## Data
 
@@ -9,28 +9,33 @@ Place the read-only source files in `data/raw/`:
 - `Phase2_Provenance.csv`
 - `attack_info.csv`
 
-## Run
+## Retrieval
 
-The default is attack row 44:
-
-```bash
-python3 src/pathshield/incident.py
-```
-
-Select another zero-based attack row with:
+Install the client libraries and add the credentials to a `.env` file in the project root:
 
 ```bash
-python3 src/pathshield/incident.py --attack-index N
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -e .
 ```
 
-Each run writes one JSON report and one GraphML file to `data/processed/`. Observed provenance relationships remain separate from inferred PID/PPID lineage.
+```dotenv
+OPENAI_API_KEY=your_openai_key
+NEO4J_PASSWORD=your_neo4j_password
+```
 
-## Neo4j
+`NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_DATABASE` optionally override the defaults `neo4j://localhost:7687`, `neo4j`, and `neo4j`.
 
-GraphML exports include `Process` and `Artifact` labels and named relationship types. Import with APOC using:
+Build the 58 PathShield incident documents, then embed and index both those documents and the curated ATT&CK corpus:
 
-```cypher
-CALL apoc.import.graphml("file.graphml", {readLabels: true});
+```bash
+python3 src/pathshield/retrieval.py --index
+```
+
+Search both indexes with one plain-English query:
+
+```bash
+python3 src/pathshield/retrieval.py --query "copies a payload over scp and executes it with ssh" --top-k 5
 ```
 
 ## Tests
